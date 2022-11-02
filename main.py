@@ -1,6 +1,3 @@
-import numpy as np
-
-
 def euler_phi(n: int) -> int:
     result = n
     i = 2
@@ -54,9 +51,9 @@ def parse_cipher_text(cipher_text: str, n: int) -> list:
 def decrypt_message(lst_cipher: list, d: int, n: int) -> str:
     decrypted: str = ''
     for c in lst_cipher:
-        m = str(int(np.power(c, d)) % n)
+        m = pow(int(c), d, n)
         print(m)
-        decrypted += m
+        decrypted += str(m)
 
     print("Исходное М (int): ", decrypted)
 
@@ -67,7 +64,7 @@ def decrypt_message(lst_cipher: list, d: int, n: int) -> str:
 
 
 def test_key(d: int, e: int, Fn: int) -> bool:
-    return d == (int(np.power(e, euler_phi(Fn) - 1)) % Fn)
+    return d == pow(e, euler_phi(Fn) - 1, Fn)
 
 
 def RSA_decrypt(cipher_text: str, e: int, n: int) -> bool:
@@ -89,9 +86,9 @@ def RSA_decrypt(cipher_text: str, e: int, n: int) -> bool:
 
 
 def main():
-    cipher_text: str = "4472019868828421289843038617813192879612275852133249779907137882545473750"
+    cipher_text: str = "6073334549854737481838817505469218919893372481934272786799829052850710603231301937207488228"
     e: int = 11119
-    n: int = 274607103517687
+    n: int = 1814354438978629
 
     RSA_decrypt(cipher_text, e, n)
 
