@@ -1,23 +1,6 @@
 import numpy as np
 
 
-def to_bits(value: int, width: int) -> str:
-    """ Преобразование числа в его битовое представление, начиная с младшего разряда """
-    return '{:0{width}b}'.format(value, width=width)[::-1]
-
-
-def fast_exp(x: int, r: int) -> int:
-    z = 1
-    copy_x = np.copy(x)
-    r_bits = to_bits(r, int(r).bit_length())
-    # print(r_bits)
-    for i in range(len(r_bits)):
-        if int(r_bits[i]) == 1:
-            z *= copy_x
-        copy_x *= copy_x
-    return z
-
-
 def euler_phi(n: int) -> int:
     result = n
     i = 2
@@ -71,7 +54,9 @@ def parse_cipher_text(cipher_text: str, n: int) -> list:
 def decrypt_message(lst_cipher: list, d: int, n: int) -> str:
     decrypted: str = ''
     for c in lst_cipher:
-        decrypted += str(fast_exp(int(c), d) % n)
+        m = str(int(np.power(c, d)) % n)
+        print(m)
+        decrypted += m
 
     print("Исходное М (int): ", decrypted)
 
@@ -82,7 +67,7 @@ def decrypt_message(lst_cipher: list, d: int, n: int) -> str:
 
 
 def test_key(d: int, e: int, Fn: int) -> bool:
-    return d == (fast_exp(e, euler_phi(Fn) - 1) % Fn)
+    return d == (int(np.power(e, euler_phi(Fn) - 1)) % Fn)
 
 
 def RSA_decrypt(cipher_text: str, e: int, n: int) -> bool:
@@ -104,9 +89,9 @@ def RSA_decrypt(cipher_text: str, e: int, n: int) -> bool:
 
 
 def main():
-    cipher_text: str = "6073334549854737481838817505469218919893372481934272786799829052850710603231301937207488228"
+    cipher_text: str = "4472019868828421289843038617813192879612275852133249779907137882545473750"
     e: int = 11119
-    n: int = 1814354438978629
+    n: int = 274607103517687
 
     RSA_decrypt(cipher_text, e, n)
 
