@@ -77,7 +77,7 @@ def RSA_decrypt(cipher_text: str, e: int, n: int) -> bool:
         return False
 
     # print("Ключ верный? ", test_key(d, e, Fn))
-    print("d: ", d)
+    # print("d: ", d)
 
     parsed_cipher: list = parse_cipher_text(cipher_text, n)
 
